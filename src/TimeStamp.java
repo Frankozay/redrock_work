@@ -60,7 +60,7 @@ public class TimeStamp {
         int seconds = countTimes % 60;
         String date;
 
-        hours += 8;
+        hours += 8;//北京时间
         if (hours >= 24) {
             hours -= 24;
             days++;
