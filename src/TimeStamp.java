@@ -31,9 +31,9 @@ public class TimeStamp {
         int countLeapYear = 0;
         int countYear = year - 1970;
         for (int i = 1970; i < year; i++) {
-            if (isLeap(i)) countLeapYear++;
+            if (isLeap(i)) countLeapYear++;//计算闰年年数
         }
-        countDays = countYear * 365 + countLeapYear;
+        countDays = countYear * 365 + countLeapYear;//总天数
         if (isLeap(year)) {
             for (int i = 0; i < month - 1; i++) {
                 countDays += isLeapYear[i];
@@ -42,7 +42,7 @@ public class TimeStamp {
             for (int i = 0; i < month - 1; i++) {
                 countDays += isNotLeapYear[i];
             }
-        }
+        }//分闰年和非闰年按月处理
         countDays += day;
         getStampTime = (countDays - 1) * 24 * 60 * 60 + hour * 60 * 60 + minute * 60 + second - 8 * 60 * 60;
         return getStampTime;
@@ -65,13 +65,13 @@ public class TimeStamp {
             hours -= 24;
             days++;
         }
-        years += countDays / 365;
+        years += countDays / 365;//大体计算年数
         for (int i = 1970; i < years; i++) {
             if (isLeap(i)) {
                 countLeapYear++;
             }
-        }
-        countDays -= 365 * (years - 1970) + countLeapYear;
+        }//计算闰年数
+        countDays -= 365 * (years - 1970) + countLeapYear;//将剩余天数减去已计入年数的天数
         if (countDays <= 0) {
             years--;
             if (isLeap(years)) {
@@ -79,8 +79,7 @@ public class TimeStamp {
             } else {
                 countDays += 365;
             }
-
-        }
+        }//特殊情况处理。years本为大体计算的年数，之前计算时当做每年365天，再减去闰年产生的天数可能会产生剩余天数小于0的情况。
         if (isLeap(years)) {
             for (int i = 0; countDays > isLeapYear[i]; i++) {
                 countDays -= isLeapYear[i];
@@ -91,7 +90,7 @@ public class TimeStamp {
                 countDays -= isNotLeapYear[i];
                 months++;
             }
-        }
+        }//当前年分闰年和非闰年处理
         days += countDays;
         if (isLeap(years)) {
             if (days > isLeapYear[months - 1]) {
@@ -111,7 +110,7 @@ public class TimeStamp {
                     years++;
                 }
             }
-        }
+        }//特殊情况，分闰年非闰年处理。days可能会大于本月天数，按情况将其处理。
         date = String.format("%d-%02d-%02d %02d:%02d:%02d", years, months, days, hours, minutes, seconds);
         return date;
     }
